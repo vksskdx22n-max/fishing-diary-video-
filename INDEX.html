@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fishing Diary — Video Presentazione</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html,body{
+  width:100%;height:100%;
+  background:#060f1a;
+  overflow:hidden;
+  font-family:'Lora',Georgia,serif;
+}
+
+/* ===== CONTENITORE PRINCIPALE ===== */
+#stage{
+  width:100vw;height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ===== SEZIONI ===== */
+.section{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform:scale(1.06);
+  transition:opacity 1.4s ease, transform 1.4s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.section.active{opacity:1;transform:scale(1);}
+.section.exit{opacity:0;transform:scale(0.96);transition:opacity 0.8s ease, transform 0.8s ease;}
+
+/* ===== SFONDO LAGUNA ANIMATO (condiviso) ===== */
+.laguna-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,#0a1a30 0%,#1a3a5c 35%,#2a6090 60%,#e8901a 85%,#f0b030 100%);
+}
+
+/* Stelle */
+.stars{position:absolute;inset:0;overflow:hidden;}
+.star{
+  position:absolute;border-radius:50%;
+  background:#fff;
+  animation:twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:0.2;}50%{opacity:1;}}
+
+/* Sole animato */
+.sole{
+  position:absolute;
+  border-radius:50%;
+  animation:sunmove 30s ease-in-out infinite alternate;
+}
+@keyframes sunmove{
+  0%{transform:translateX(-30px);}
+  100%{transform:translateX(30px);}
+}
+
+/* Onde animate */
+.onde-container{
+  position:absolute;bottom:0;left:0;right:0;
+  height:45%;
+  overflow:hidden;
+}
+.onda{
+  position:absolute;
+  width:200%;left:-50%;
+  border-radius:50%;
+  animation:ondamove 8s ease-in-out infinite;
+}
+@keyframes ondamove{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-15px) rotate(1.5deg);}
+}
+
+/* Venezia silhouette */
+.venezia{
+  position:absolute;
+  bottom:42%;left:0;right:0;
+  height:60px;
+  opacity:0.35;
+}
+
+/* ===== BARRA PROGRESSO ===== */
+#progress-bar{
+  position:fixed;bottom:0;left:0;
+  height:3px;
+  background:linear-gradient(90deg,#e07b39,#f9c74f);
+  width:0%;
+  z-index:1000;
+  transition:none;
+}
+
+/* ===== SEZIONE 0: APERTURA ===== */
+#s0 .content{
+  position:relative;z-index:2;
+  text-align:center;
+  display:flex;flex-direction:column;
+  align-items:center;gap:20px;
+}
+.logo-fish{
+  animation:fishbob 3s ease-in-out infinite;
+}
+@keyframes fishbob{
+  0%,100%{transform:translateY(0) rotate(-2deg);}
+  50%{transform:translateY(-10px) rotate(2deg);}
+}
+.main-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:min(14vw,120px);
+  color:#fff;
+  letter-spacing:8px;
+  line-height:0.9;
+  text-shadow:0 0 60px rgba(249,199,79,0.3);
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 1s ease 0.5s;
+}
+.main-title.show{opacity:1;transform:translateY(0);}
+.sub-title{
+  font-size:min(3vw,20px);
+  color:rgba(255,255,255,0.6);
+  letter-spacing:6px;
+  text-transform:uppercase;
+  opacity:0;
+  transition:all 1s ease 1s;
+}
+.sub-title.show{opacity:1;}
+.tagline{
+  font-size:min(2.5vw,18px);
+  color:rgba(255,255,255,0.85);
+  line-height:1.7;
+  max-width:600px;
+  opacity:0;
+  transition:all 1s ease 1.5s;
+}
+.tagline.show{opacity:1;}
+.divider-line{
+  width:80px;height:2px;
+  background:linear-gradient(90deg,transparent,#e07b39,transparent);
+  opacity:0;
+  transition:all 1s ease 1.2s;
+}
+.divider-line.show{opacity:1;}
+
+/* ===== SEZIONE 1: PESCATORE ===== */
+#s1{flex-direction:column;justify-content:center;gap:8px;padding:10px 20px;}
+#s1 .img-container{
+  position:relative;z-index:2;
+  width:min(90vw,900px);
+  max-height:55vh;
+  overflow:hidden;
+  opacity:0;transform:translateY(40px);
+  transition:all 1s ease 0.3s;
+}
+#s1 .img-container svg{
+  width:100%;
+  height:100%;
+  max-height:55vh;
+  object-fit:contain;
+}
+#s1 .img-container.show{opacity:1;transform:translateY(0);}
+#s1 .caption{
+  position:relative;z-index:2;
+  text-align:center;
+  margin-bottom:16px;
+  opacity:0;transition:all 1s ease 0.8s;
+}
+#s1 .caption.show{opacity:1;}
+#s1 .caption h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(20px,3.5vw,36px);
+  color:#f9c74f;
+  letter-spacing:4px;
+}
+#s1 .caption p{
+  font-size:clamp(13px,1.6vw,16px);
+  color:rgba(255,255,255,0.85);
+  margin-top:4px;
+  line-height:1.5;
+  text-shadow:0 1px 8px rgba(0,0,0,0.6);
+}
+
+/* ===== SEZIONE 2: HUD ===== */
+#s2 .hud-container{
+  position:relative;z-index:2;
+  width:min(90vw,900px);
+  opacity:0;transform:scale(0.95);
+  transition:all 1s ease 0.3s;
+}
+#s2 .hud-container.show{opacity:1;transform:scale(1);}
+#s2 .hud-title{
+  position:relative;z-index:2;
+  text-align:center;
+  margin-bottom:16px;
+  opacity:0;transition:all 1s ease 0.1s;
+}
+#s2 .hud-title.show{opacity:1;}
+#s2 .hud-title h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:min(4vw,36px);
+  color:#f9c74f;letter-spacing:4px;
+}
+#s2 .hud-title p{
+  font-size:min(1.8vw,14px);
+  color:rgba(255,255,255,0.6);
+  margin-top:4px;letter-spacing:2px;text-transform:uppercase;
+}
+
+/* ===== SEZIONE 3: APP ===== */
+#s3{flex-direction:column;gap:8px;}
+#s3 .app-label{
+  position:relative;z-index:2;
+  text-align:center;
+  opacity:0;transition:all 1s ease 0.2s;
+}
+#s3 .app-label.show{opacity:1;}
+#s3 .app-label h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:min(5vw,28px);color:#f9c74f;letter-spacing:4px;
+}
+.phone-scene{
+  position:relative;z-index:2;
+  width:min(280px,80vw);height:min(608px,80vh);
+  flex-shrink:0;
+  opacity:0;transform:translateY(30px);
+  transition:all 1s ease 0.5s;
+}
+.phone-scene.show{opacity:1;transform:translateY(0);}
+.phone-frame{
+  position:absolute;inset:0;
+  border-radius:34px;
+  overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,0.7),inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+.pslide{
+  position:absolute;inset:0;
+  opacity:0;transition:opacity 0.8s ease;
+  display:flex;flex-direction:column;
+}
+.pslide.active{opacity:1;}
+
+/* Phone app styles */
+.p-header{
+  background:linear-gradient(135deg,#1F4E78,#2a6099);
+  padding:36px 16px 10px;flex-shrink:0;
+}
+.p-header-title{font-family:'Bebas Neue',sans-serif;font-size:15px;color:#fff;letter-spacing:2px;}
+.p-header-sub{font-size:8px;color:rgba(255,255,255,0.55);margin-top:1px;}
+.p-tabs{display:flex;background:#fff;border-bottom:1px solid #e8f0f8;flex-shrink:0;}
+.p-tab{flex:1;padding:7px 2px;text-align:center;font-size:7px;color:#aaa;border-bottom:2px solid transparent;}
+.p-tab.on{color:#1F4E78;border-bottom-color:#1F4E78;font-weight:700;}
+.p-content{flex:1;background:#f0f5fb;overflow:hidden;}
+.p-card{background:#fff;margin:8px;border-radius:11px;padding:11px;box-shadow:0 2px 8px rgba(31,78,120,0.08);}
+.p-label{font-size:7px;color:#999;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.p-val{font-size:10px;color:#1F4E78;font-weight:600;background:#e8f0f8;padding:5px 9px;border-radius:6px;border:1px solid #b8d0eb;}
+.p-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px;}
+.p-badge{padding:2px 7px;border-radius:20px;font-size:7px;font-weight:600;background:#e8f0f8;color:#1F4E78;}
+.p-badge.or{background:#fff3e8;color:#e07b39;}
+.p-catch{
+  background:linear-gradient(135deg,#1F4E78,#2a6099);
+  margin:0 8px 8px;border-radius:11px;
+  padding:10px 12px;display:flex;align-items:center;gap:8px;
+}
+.p-catch-name{font-size:11px;font-weight:700;color:#fff;}
+.p-catch-detail{font-size:8px;color:rgba(255,255,255,0.65);margin-top:1px;}
+
+/* Mappa phone */
+.p-map{flex:1;position:relative;overflow:hidden;background:linear-gradient(160deg,#c8e0f0,#88b8d0);}
+.p-land{position:absolute;background:#ddeac8;}
+.p-marker{position:absolute;width:22px;height:22px;transform:translate(-50%,-100%);}
+.p-marker svg{width:100%;height:100%;}
+.p-mlabel{position:absolute;top:25px;left:50%;transform:translateX(-50%);background:#fff;padding:1px 5px;border-radius:6px;font-size:6px;font-weight:700;color:#1F4E78;white-space:nowrap;}
+.p-pulse{position:absolute;width:14px;height:14px;border-radius:50%;background:rgba(31,78,120,0.35);transform:translate(-50%,-50%);animation:pulse 2s ease-out infinite;}
+@keyframes pulse{0%{transform:translate(-50%,-50%) scale(1);opacity:1;}100%{transform:translate(-50%,-50%) scale(3.5);opacity:0;}}
+.p-spotlist{background:#fff;padding:6px 10px;flex-shrink:0;}
+.p-spotitem{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid #f0f5fb;font-size:9px;color:#222;}
+.p-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* Stats phone */
+.p-sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;padding:8px;}
+.p-scard{background:linear-gradient(135deg,#1F4E78,#2a6099);border-radius:9px;padding:8px 4px;text-align:center;color:#fff;}
+.p-snum{font-size:16px;font-weight:700;}
+.p-slbl{font-size:6px;opacity:0.65;text-transform:uppercase;}
+.p-bars{display:flex;align-items:flex-end;gap:4px;height:44px;padding:0 8px;}
+.p-bar{flex:1;background:linear-gradient(180deg,#1F4E78,#3a7bbf);border-radius:3px 3px 0 0;}
+
+/* Finale phone */
+.p-finale{
+  background:linear-gradient(160deg,#0d1f35,#1a3a5c,#0e4a6e);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:12px;padding:24px 20px;
+}
+.p-finale-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:3px;text-align:center;line-height:1.05;}
+.p-fitem{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.07);width:100%;opacity:0;transform:translateX(-12px);transition:all 0.4s ease;}
+.p-fitem.show{opacity:1;transform:translateX(0);}
+.p-fcta{background:linear-gradient(135deg,#e07b39,#f0943a);color:#fff;font-size:11px;font-weight:700;padding:10px 20px;border-radius:20px;text-align:center;width:100%;animation:ctap 2s ease-in-out infinite;}
+@keyframes ctap{0%,100%{box-shadow:0 6px 18px rgba(224,123,57,0.4);}50%{box-shadow:0 6px 28px rgba(224,123,57,0.7);}}
+.p-pb{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,#e07b39,#f9c74f);width:0%;z-index:10;}
+
+
+
+/* INDICATORI SEZIONE */
+#section-dots{
+  position:fixed;right:20px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:8px;z-index:1000;
+}
+.sdot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.25);transition:all 0.3s;
+}
+.sdot.on{background:#e07b39;height:18px;border-radius:3px;}
+
+/* ===== LABEL PANNELLO OVERLAY ===== */
+.panel-label-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px 14px;
+  background: linear-gradient(180deg, rgba(6,15,26,0.95) 60%, transparent 100%);
+  pointer-events: none;
+}
+.panel-label-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 4px;
+  color: #f9c74f;
+  text-transform: uppercase;
+  opacity: 1;
+  text-shadow: 0 0 12px rgba(249,199,79,0.5);
+}
+
+
+/* ===== SEZIONE TESTO SCORREVOLE ===== */
+#s-testo {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.testo-scroll-wrap {
+  position: relative;
+  z-index: 2;
+  width: min(90vw, 640px);
+  height: 70vh;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+.testo-scroll-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* animation driven by JS */
+  padding-top: 0;
+  padding-bottom: 60vh;
+}
+
+.tl {
+  text-align: center;
+  line-height: 1.9;
+  padding: 4px 0;
+}
+.tl-intro {
+  font-family: 'Lora', Georgia, serif;
+  font-size: min(4vw, 22px);
+  font-style: italic;
+  color: rgba(255,255,255,0.75);
+}
+.tl-claim {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: min(6vw, 38px);
+  color: #fff;
+  letter-spacing: 3px;
+  line-height: 1.15;
+  padding: 8px 0;
+}
+.tl-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e07b39, transparent);
+  margin: 14px auto;
+}
+.tl-feature {
+  font-family: 'Lora', Georgia, serif;
+  font-size: min(3.5vw, 20px);
+  color: rgba(255,255,255,0.88);
+  padding: 3px 0;
+}
+.tl-note {
+  font-family: 'Lora', Georgia, serif;
+  font-size: min(3vw, 17px);
+  font-style: italic;
+  color: rgba(255,255,255,0.55);
+  padding: 3px 0;
+}
+
+</style>
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- ===== SEZIONE 0: APERTURA ===== -->
+  <div class="section active" id="s0">
+    <div class="laguna-bg"></div>
+    <!-- Stelle -->
+    <div class="stars" id="stars0"></div>
+    <!-- Sole -->
+    <div class="sole" style="width:80px;height:80px;background:radial-gradient(circle,#f9e060,#f9a820,#e06820);right:15%;top:20%;box-shadow:0 0 60px rgba(249,168,32,0.5);"></div>
+    <div class="sole" style="width:120px;height:120px;background:radial-gradient(circle,rgba(249,199,79,0.2),transparent);right:12%;top:17%;animation-delay:-3s;"></div>
+    <!-- Venezia -->
+    <div class="venezia">
+      <svg width="100%" height="60" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="40" width="1200" height="20" fill="#1a2a3a"/>
+        <rect x="200" y="20" width="12" height="40" fill="#1a2a3a"/>
+        <polygon points="200,20 212,20 206,5" fill="#1a2a3a"/>
+        <ellipse cx="320" cy="32" rx="22" ry="12" fill="#1a2a3a"/>
+        <rect x="350" y="25" width="25" height="35" fill="#1a2a3a"/>
+        <rect x="380" y="30" width="18" height="30" fill="#1a2a3a"/>
+        <rect x="600" y="22" width="14" height="38" fill="#1a2a3a"/>
+        <polygon points="600,22 614,22 607,8" fill="#1a2a3a"/>
+        <ellipse cx="660" cy="28" rx="20" ry="11" fill="#1a2a3a"/>
+        <rect x="700" y="26" width="22" height="34" fill="#1a2a3a"/>
+        <rect x="726" y="30" width="16" height="30" fill="#1a2a3a"/>
+        <rect x="900" y="24" width="18" height="36" fill="#1a2a3a"/>
+        <rect x="922" y="28" width="14" height="32" fill="#1a2a3a"/>
+        <ellipse cx="960" cy="30" rx="18" ry="10" fill="#1a2a3a"/>
+        <rect x="990" y="26" width="20" height="34" fill="#1a2a3a"/>
+      </svg>
+    </div>
+    <!-- Onde -->
+    <div class="onde-container">
+      <div class="onda" style="height:120px;bottom:-40px;background:rgba(14,74,110,0.8);animation-duration:9s;"></div>
+      <div class="onda" style="height:100px;bottom:-30px;background:rgba(10,45,69,0.7);animation-duration:11s;animation-delay:-3s;"></div>
+      <div class="onda" style="height:80px;bottom:-20px;background:rgba(7,30,56,0.9);animation-duration:13s;animation-delay:-6s;"></div>
+    </div>
+    <div class="content" id="s0-content">
+      <div class="logo-fish">
+        <svg width="140" height="70" viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="72" cy="40" rx="58" ry="22" fill="#4a7fa8" opacity="0.95"/>
+          <ellipse cx="72" cy="46" rx="50" ry="13" fill="#6aa0c0" opacity="0.6"/>
+          <ellipse cx="58" cy="32" rx="22" ry="6" fill="rgba(255,255,255,0.3)" transform="rotate(-15,58,32)"/>
+          <path d="M14 40 Q2 22 0 14 Q8 28 14 40Z" fill="#3a6a8a"/>
+          <path d="M14 40 Q2 58 0 66 Q8 52 14 40Z" fill="#3a6a8a"/>
+          <path d="M55 18 Q72 6 90 16 Q80 20 70 18 Q62 17 55 18Z" fill="#2a5a7a"/>
+          <circle cx="112" cy="37" r="7" fill="#1a3a5a"/>
+          <circle cx="112" cy="37" r="5" fill="#0a1a2a"/>
+          <circle cx="114" cy="35" r="2" fill="rgba(255,255,255,0.9)"/>
+          <path d="M128 40 Q136 37 138 40" stroke="#2a5a7a" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="main-title" id="s0-title">FISHING<br>DIARY</div>
+      <div class="divider-line" id="s0-div"></div>
+      <div class="sub-title" id="s0-sub">Laguna di Venezia</div>
+      <div class="tagline" id="s0-tag">Semplice · Intuitiva · Sempre con te</div>
+    </div>
+    <div class="progress-bar" id="ppb-0" style="position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,#e07b39,#f9c74f);width:0%;z-index:10;"></div>
+  </div>
+
+
+  <!-- ===== SEZIONE TESTO SCORREVOLE ===== -->
+  <div class="section" id="s-testo">
+    <div class="laguna-bg" style="background:linear-gradient(180deg,#060e1c 0%,#0d1e34 50%,#071020 100%);"></div>
+    <div class="stars" id="stars-testo"></div>
+    <div class="testo-scroll-wrap" id="testo-wrap">
+      <div class="testo-scroll-inner" id="testo-inner">
+        <div class="tl tl-intro">Da pescatore della laguna di Venezia.</div>
+        <div class="tl tl-intro">Cercavo un'app per le mie uscite.</div>
+        <div class="tl tl-claim">Non la trovavo —<br>così è nata Fishing Diary.</div>
+        <div class="tl-divider"></div>
+        <div class="tl tl-feature">🗺 Mappa spot GPS</div>
+        <div class="tl tl-feature">📋 Registro uscite · meteo · marea · luna</div>
+        <div class="tl tl-feature">📊 Statistiche automatiche</div>
+        <div class="tl tl-feature">📤 Export CSV e JSON</div>
+        <div class="tl-divider"></div>
+        <div class="tl tl-note">I dati restano sul tuo telefono.</div>
+        <div class="tl tl-note">Nessuna registrazione.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 1: PESCATORE ===== -->
+  <div class="section" id="s1">
+    <div class="laguna-bg" style="background:linear-gradient(180deg,#0a1a30 0%,#1a3a5c 30%,#2a6090 55%,#e8901a 80%,#f0b030 100%);"></div>
+    <div class="stars" id="stars1"></div>
+    <div class="sole" style="width:70px;height:70px;background:radial-gradient(circle,#f9e060,#f9a820,#e06820);right:8%;top:22%;box-shadow:0 0 50px rgba(249,168,32,0.5);"></div>
+    <div class="onde-container">
+      <div class="onda" style="height:120px;bottom:-40px;background:rgba(14,74,110,0.8);animation-duration:9s;"></div>
+      <div class="onda" style="height:80px;bottom:-20px;background:rgba(7,30,56,0.9);animation-duration:13s;animation-delay:-4s;"></div>
+    </div>
+    <div class="caption" id="s1-cap">
+      <h3>🐟 La cattura che non dimentichi</h3>
+      <p>Registra ogni uscita — specie, peso, esca, spot, condizioni meteo e marea.<br>Il tuo diario di pesca sempre con te, su qualsiasi dispositivo.</p>
+    </div>
+    <div class="img-container" id="s1-img">
+      <svg viewBox="0 0 680 560" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="fishbody2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6ab0a0"/><stop offset="40%" stop-color="#8ac8a0"/><stop offset="100%" stop-color="#c8d890"/></linearGradient>
+          <linearGradient id="fishbelly2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8f0d0"/><stop offset="100%" stop-color="#c8dab0"/></linearGradient>
+          <linearGradient id="shirt2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a5a9a"/><stop offset="100%" stop-color="#1a4a80"/></linearGradient>
+        </defs>
+        <!-- Barca -->
+        <path d="M82 382 Q90 415 125 422 L440 422 Q475 415 482 382 Z" fill="#7a5808"/>
+        <path d="M82 382 Q282 370 482 382" fill="none" stroke="#c8a030" stroke-width="5" stroke-linecap="round"/>
+        <path d="M95 387 Q282 377 470 387 L465 418 Q282 410 100 418Z" fill="#6a4808"/>
+        <rect x="140" y="378" width="100" height="10" rx="4" fill="#5a3808"/>
+        <rect x="325" y="378" width="100" height="10" rx="4" fill="#5a3808"/>
+        <rect x="452" y="390" width="22" height="30" rx="4" fill="#3a3a3a"/>
+        <rect x="458" y="420" width="10" height="8" rx="2" fill="#2a2a2a"/>
+        <ellipse cx="463" cy="432" rx="12" ry="4" fill="#a0c8e0" opacity="0.45"/>
+        <!-- Canna -->
+        <path d="M120 380 Q200 357 310 342 Q380 334 430 328" fill="none" stroke="#8B6810" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M120 380 Q200 357 310 342 Q380 334 430 328" fill="none" stroke="#c8a030" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <ellipse cx="158" cy="374" rx="10" ry="7" fill="#3a3a3a"/>
+        <path d="M430 328 Q480 292 520 262" fill="none" stroke="#aaa" stroke-width="0.8" opacity="0.45"/>
+        <!-- Pescatore -->
+        <ellipse cx="252" cy="384" rx="20" ry="8" fill="#2a2a2a"/>
+        <ellipse cx="312" cy="384" rx="20" ry="8" fill="#222"/>
+        <rect x="235" y="358" width="34" height="28" rx="6" fill="#2a2a2a"/>
+        <rect x="295" y="358" width="34" height="28" rx="6" fill="#222"/>
+        <rect x="238" y="297" width="36" height="65" rx="8" fill="#6a7a50"/>
+        <rect x="290" y="297" width="36" height="65" rx="8" fill="#5a6a44"/>
+        <rect x="236" y="294" width="92" height="8" rx="3" fill="#4a3808"/>
+        <path d="M228 222 Q220 242 222 297 L342 297 Q344 242 336 222 Q310 212 282 210 Q254 212 228 222Z" fill="url(#shirt2)"/>
+        <path d="M258 217 Q282 210 306 217 L308 232 Q282 224 256 232Z" fill="#4a8ad0" opacity="0.75"/>
+        <rect x="268" y="207" width="28" height="16" rx="6" fill="#c09060"/>
+        <circle cx="282" cy="194" r="32" fill="#c09060"/>
+        <path d="M252 190 Q282 174 312 190" fill="#1a1a1a"/>
+        <path d="M252 185 Q282 165 312 185 Q312 174 282 169 Q252 174 252 185Z" fill="#1a3a6a"/>
+        <rect x="250" y="185" width="64" height="8" rx="3" fill="#1a3a6a"/>
+        <path d="M245 193 Q282 200 324 191" fill="#142d56"/>
+        <path d="M256 200 Q264 192 278 198 Q272 206 258 204Z" fill="#0a0a0a"/>
+        <path d="M286 198 Q300 192 308 200 Q306 206 288 204Z" fill="#0a0a0a"/>
+        <path d="M252 198 Q254 192 258 192 Q268 188 278 194 Q282 196 286 194 Q296 188 308 192 Q313 194 314 198" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="250" cy="198" rx="5" ry="7" fill="#b88050"/>
+        <ellipse cx="314" cy="198" rx="5" ry="7" fill="#b88050"/>
+        <path d="M272 216 Q282 222 292 216" fill="none" stroke="#8a5030" stroke-width="2" stroke-linecap="round"/>
+        <path d="M228 242 Q218 267 230 292 Q242 297 252 287" stroke="#1a5a9a" stroke-width="20" stroke-linecap="round" fill="none"/>
+        <path d="M228 242 Q218 267 230 292 Q242 297 252 287" stroke="#c09060" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <path d="M336 242 Q346 267 334 292 Q322 297 312 287" stroke="#1a5a9a" stroke-width="20" stroke-linecap="round" fill="none"/>
+        <path d="M336 242 Q346 267 334 292 Q322 297 312 287" stroke="#c09060" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <ellipse cx="248" cy="289" rx="14" ry="10" fill="#c09060"/>
+        <ellipse cx="316" cy="289" rx="14" ry="10" fill="#c09060"/>
+        <!-- Spigola -->
+        <g transform="translate(282,287) rotate(-8)">
+          <ellipse cx="0" cy="0" rx="70" ry="24" fill="url(#fishbody2)"/>
+          <ellipse cx="4" cy="9" rx="56" ry="13" fill="url(#fishbelly2)" opacity="0.85"/>
+          <path d="M-55 -2 Q-20 -8 20 -4 Q45 -2 62 2" stroke="#3a6a78" stroke-width="1.2" fill="none" opacity="0.5" stroke-dasharray="4,3"/>
+          <path d="M-20 -14 Q-10 -19 0 -15 Q-10 -10 -20 -14Z" fill="rgba(255,255,255,0.18)"/>
+          <path d="M2 -15 Q12 -20 22 -16 Q12 -11 2 -15Z" fill="rgba(255,255,255,0.16)"/>
+          <path d="M-70 0 Q-90 -22 -98 -30 Q-86 -14 -70 0Z" fill="#3a7888"/>
+          <path d="M-70 0 Q-90 22 -98 30 Q-86 14 -70 0Z" fill="#3a7888"/>
+          <path d="M-20 -24 Q-5 -46 15 -42 Q28 -38 38 -28 Q22 -22 8 -24 Q-6 -25 -20 -24Z" fill="#2a6878"/>
+          <line x1="-14" y1="-24" x2="-10" y2="-42" stroke="#1a5060" stroke-width="0.8" opacity="0.5"/>
+          <line x1="-4" y1="-25" x2="-1" y2="-45" stroke="#1a5060" stroke-width="0.8" opacity="0.5"/>
+          <line x1="6" y1="-25" x2="10" y2="-44" stroke="#1a5060" stroke-width="0.8" opacity="0.5"/>
+          <path d="M18 6 Q34 20 32 28 Q24 20 14 12Z" fill="#3a7888" opacity="0.85"/>
+          <path d="M38 -14 Q52 -4 52 8 Q44 16 36 14 Q28 6 28 -6 Q32 -14 38 -14Z" fill="#5a9898" opacity="0.6"/>
+          <circle cx="62" cy="-2" r="10" fill="#f0f0e0"/>
+          <circle cx="62" cy="-2" r="7" fill="#1a2a1a"/>
+          <circle cx="62" cy="-2" r="4" fill="#0a0a0a"/>
+          <circle cx="64.5" cy="-4.5" r="2.5" fill="#fff"/>
+          <path d="M72 4 Q78 2 80 5" stroke="#2a4a58" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Label -->
+        <rect x="14" y="468" width="230" height="62" rx="12" fill="#060f1a" opacity="0.88"/>
+        <text font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#f9c74f" x="129" y="494" text-anchor="middle">FISHING DIARY</text>
+        <text font-family="Georgia, serif" font-size="12" fill="#88c0e0" x="129" y="514" text-anchor="middle">Laguna di Venezia</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 2: HUD ===== -->
+  <div class="section" id="s2">
+    <div class="laguna-bg" style="background:linear-gradient(180deg,#071020 0%,#0d2040 30%,#1a3a5c 55%,#c87010 85%,#e8a020 100%);"></div>
+    <div class="stars" id="stars2"></div>
+    <div class="sole" style="width:60px;height:60px;background:radial-gradient(circle,#f9e060,#f9a820,#e06820);left:50%;top:25%;transform:translateX(-50%);box-shadow:0 0 40px rgba(249,168,32,0.4);"></div>
+    <div class="onde-container">
+      <div class="onda" style="height:120px;bottom:-40px;background:rgba(7,16,32,0.9);animation-duration:10s;"></div>
+      <div class="onda" style="height:90px;bottom:-25px;background:rgba(5,12,24,0.8);animation-duration:14s;animation-delay:-5s;"></div>
+    </div>
+    <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;">
+      <div class="hud-title" id="s2-title">
+        <h3>🌊 Tutti i dati in un'unica app</h3>
+        <p>marea · vento · luna · webcam laguna</p>
+      </div>
+      <div class="hud-container" id="s2-hud">
+        <svg viewBox="0 0 680 340" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hcard2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#071428" stop-opacity="0.95"/><stop offset="100%" stop-color="#0a1e38" stop-opacity="0.92"/></linearGradient>
+            <linearGradient id="mwave2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#2a8ad8"/><stop offset="100%" stop-color="#50c8f8"/></linearGradient>
+          </defs>
+          <!-- CARD MAREA -->
+          <rect x="10" y="10" width="158" height="155" rx="14" fill="url(#hcard2)"/>
+          <rect x="10" y="10" width="158" height="155" rx="14" fill="none" stroke="#2a7ab8" stroke-width="1" opacity="0.7"/>
+          <rect x="10" y="10" width="158" height="4" rx="2" fill="#2a8ad8" opacity="0.8"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#5ab8e8" x="22" y="26" letter-spacing="2">MAREA · VENEZIA 🌊</text>
+          <line x1="22" y1="30" x2="158" y2="30" stroke="#2a5a7a" stroke-width="0.5" opacity="0.6"/>
+          <text font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#4ab8f0" x="22" y="68">+68</text>
+          <text font-family="Georgia, serif" font-size="12" fill="#2a8ab8" x="84" y="68">cm</text>
+          <text font-family="Georgia, serif" font-size="9" fill="#70d8f0" x="22" y="82">↑ crescente · alta ore 14:20</text>
+          <rect x="22" y="90" width="136" height="42" rx="6" fill="#071020"/>
+          <path d="M28 124 Q42 112 54 118 Q68 106 80 112 Q94 100 108 106 Q122 94 136 100 Q148 92 156 95" fill="none" stroke="url(#mwave2)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="108" cy="106" r="3" fill="#4ab8f0"/>
+          <text font-family="Georgia, serif" font-size="6" fill="#4ab8f0" x="110" y="104">ora</text>
+          <text font-family="Georgia, serif" font-size="6" fill="#2a5a7a" x="22" y="136">6:00</text>
+          <text font-family="Georgia, serif" font-size="6" fill="#2a5a7a" x="156" y="136" text-anchor="end">20:00</text>
+          <rect x="22" y="142" width="80" height="13" rx="5" fill="#071428" opacity="0.9"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#4ab8f0" x="62" y="151" text-anchor="middle">centromaree.it</text>
+          <!-- CARD VENTO -->
+          <rect x="178" y="10" width="158" height="155" rx="14" fill="url(#hcard2)"/>
+          <rect x="178" y="10" width="158" height="155" rx="14" fill="none" stroke="#00a880" stroke-width="1" opacity="0.7"/>
+          <rect x="178" y="10" width="158" height="4" rx="2" fill="#00c8a0" opacity="0.8"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#00d8b0" x="190" y="26" letter-spacing="2">VENTO · WINDY 💨</text>
+          <line x1="190" y1="30" x2="326" y2="30" stroke="#008860" stroke-width="0.5" opacity="0.6"/>
+          <text font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#00d8b0" x="190" y="68">8</text>
+          <text font-family="Georgia, serif" font-size="12" fill="#00a880" x="216" y="68">kn NE</text>
+          <text font-family="Georgia, serif" font-size="9" fill="#00c090" x="190" y="82">Brezza leggera · raffica 12 kn</text>
+          <circle cx="232" cy="114" r="26" fill="#071020"/>
+          <circle cx="232" cy="114" r="26" fill="none" stroke="#00604a" stroke-width="0.8"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#00d8b0" x="232" y="93" text-anchor="middle">N</text>
+          <text font-family="Georgia, serif" font-size="7" fill="#006040" x="232" y="138" text-anchor="middle">S</text>
+          <text font-family="Georgia, serif" font-size="7" fill="#006040" x="208" y="117" text-anchor="middle">O</text>
+          <text font-family="Georgia, serif" font-size="7" fill="#00d8b0" x="256" y="117" text-anchor="middle">E</text>
+          <line x1="232" y1="114" x2="244" y2="102" stroke="#00d8b0" stroke-width="2.5" stroke-linecap="round"/>
+          <polygon points="244,102 238,106 241,110" fill="#00d8b0"/>
+          <rect x="270" y="98" width="7" height="26" rx="2" fill="#00d8b0"/>
+          <rect x="281" y="104" width="7" height="20" rx="2" fill="#00d8b0" opacity="0.7"/>
+          <rect x="292" y="110" width="7" height="14" rx="2" fill="#00d8b0" opacity="0.5"/>
+          <rect x="190" y="142" width="54" height="13" rx="5" fill="#071428" opacity="0.9"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#00c890" x="217" y="151" text-anchor="middle">windy.com</text>
+          <rect x="250" y="142" width="68" height="13" rx="5" fill="#071428" opacity="0.9"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#00c890" x="284" y="151" text-anchor="middle">windfinder.com</text>
+          <!-- CARD LUNA -->
+          <rect x="346" y="10" width="148" height="155" rx="14" fill="url(#hcard2)"/>
+          <rect x="346" y="10" width="148" height="155" rx="14" fill="none" stroke="#c8a030" stroke-width="1" opacity="0.7"/>
+          <rect x="346" y="10" width="148" height="4" rx="2" fill="#f9c74f" opacity="0.8"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#f0c050" x="358" y="26" letter-spacing="2">FASE LUNARE 🌕</text>
+          <line x1="358" y1="30" x2="484" y2="30" stroke="#7a6010" stroke-width="0.5" opacity="0.6"/>
+          <circle cx="390" cy="90" r="28" fill="#f9e878" opacity="0.15"/>
+          <circle cx="390" cy="90" r="20" fill="#f9e060" opacity="0.25"/>
+          <circle cx="390" cy="90" r="15" fill="#f9d840" opacity="0.7"/>
+          <circle cx="390" cy="90" r="15" fill="none" stroke="#f9c74f" stroke-width="1.5"/>
+          <circle cx="385" cy="85" r="2.5" fill="#e8c020" opacity="0.5"/>
+          <circle cx="394" cy="93" r="1.5" fill="#e8c020" opacity="0.4"/>
+          <text font-family="Georgia, serif" font-size="15" font-weight="bold" fill="#f9c74f" x="418" y="82">Luna</text>
+          <text font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#f9c74f" x="418" y="98">Piena</text>
+          <text font-family="Georgia, serif" font-size="8" fill="#c89820" x="418" y="112">Alta attività</text>
+          <text font-family="Georgia, serif" font-size="7" fill="#c89820" x="358" y="130">Attività:</text>
+          <rect x="394" y="123" width="14" height="7" rx="2" fill="#f9c74f"/>
+          <rect x="412" y="123" width="14" height="7" rx="2" fill="#f9c74f"/>
+          <rect x="430" y="123" width="14" height="7" rx="2" fill="#f9c74f"/>
+          <rect x="448" y="123" width="14" height="7" rx="2" fill="#f9c74f" opacity="0.4"/>
+          <text font-family="Georgia, serif" font-size="6" fill="#c89820" x="484" y="150" text-anchor="end">moon-phases.com</text>
+          <!-- CARD WEBCAM -->
+          <rect x="504" y="10" width="166" height="155" rx="14" fill="url(#hcard2)"/>
+          <rect x="504" y="10" width="166" height="155" rx="14" fill="none" stroke="#e04a20" stroke-width="1" opacity="0.7"/>
+          <rect x="504" y="10" width="166" height="4" rx="2" fill="#e05a20" opacity="0.8"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#f07840" x="516" y="26" letter-spacing="2">WEBCAM LAGUNA 📹</text>
+          <line x1="516" y1="30" x2="660" y2="30" stroke="#802a10" stroke-width="0.5" opacity="0.6"/>
+          <rect x="516" y="36" width="142" height="88" rx="7" fill="#0a1020"/>
+          <rect x="516" y="36" width="142" height="38" fill="#2a5a8a" opacity="0.7"/>
+          <rect x="516" y="72" width="142" height="22" fill="#0e2e4a"/>
+          <rect x="548" y="42" width="28" height="20" rx="2" fill="#1a2a3a"/>
+          <rect x="552" y="38" width="4" height="7" rx="1" fill="#2a3a4a"/>
+          <rect x="560" y="38" width="4" height="7" rx="1" fill="#2a3a4a"/>
+          <rect x="584" y="44" width="20" height="16" rx="2" fill="#1a2a3a"/>
+          <path d="M612 72 Q625 69 638 72 Q638 76 625 77 Q612 76 612 72Z" fill="#2a3a4a"/>
+          <circle cx="524" cy="44" r="4" fill="#e04a20"/>
+          <text font-family="Georgia, serif" font-size="7" font-weight="bold" fill="#e04a20" x="532" y="48">LIVE</text>
+          <text font-family="Georgia, serif" font-size="7" fill="#a0c0d8" x="516" y="138">Cantieri Biasin · Laguna Nord</text>
+          <text font-family="Georgia, serif" font-size="8" fill="#f07840" x="660" y="138" text-anchor="end">17:42</text>
+          <rect x="516" y="142" width="66" height="13" rx="5" fill="#071428" opacity="0.9"/>
+          <rect x="518" y="144" width="9" height="9" rx="2" fill="#e04a20"/>
+          <text font-family="Georgia, serif" font-size="7" fill="#f07840" x="578" y="151" text-anchor="end">YouTube Live</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 3: APP ===== -->
+  <div class="section" id="s3">
+    <div class="laguna-bg" style="background:linear-gradient(180deg,#060e1c 0%,#0d1e34 40%,#1a3050 70%,#0e2840 100%);"></div>
+    <div class="stars" id="stars3"></div>
+    <div class="app-label" id="s3-label">
+      <h3>📱 L'app in azione</h3>
+    </div>
+    <div class="phone-scene" id="s3-phone">
+      <div class="phone-frame">
+        <!-- PSLIDE 0: INTRO -->
+        <div class="pslide active" id="ps0" style="background:linear-gradient(160deg,#0d1f35,#1a3a5c,#0e4a6e);align-items:center;justify-content:center;gap:10px;">
+          <div style="font-size:48px;animation:fishbob 3s ease-in-out infinite;">🎣</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:3px;text-align:center;line-height:1;">FISHING<br>DIARY</div>
+          <div style="width:40px;height:2px;background:linear-gradient(90deg,transparent,#e07b39,transparent);"></div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:4px;text-transform:uppercase;">Laguna di Venezia</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.75);text-align:center;line-height:1.6;padding:0 20px;">Semplice. Intuitiva.<br>Sempre con te.</div>
+          <div class="p-pb" id="ppb-ps0"></div>
+        </div>
+        <!-- PSLIDE 1: NUOVA -->
+        <div class="pslide" id="ps1">
+          <div class="panel-label-overlay"><span class="panel-label-text">✏️ Nuova</span></div>
+          <div class="p-header"><div class="p-header-title">FISHING DIARY</div><div class="p-header-sub">Laguna di Venezia</div></div>
+          <div class="p-tabs">
+            <div class="p-tab">📖</div><div class="p-tab on">✏️ Nuova</div>
+            <div class="p-tab">📋</div><div class="p-tab">🗺</div><div class="p-tab">📊</div>
+          </div>
+          <div class="p-content" style="overflow-y:auto;">
+            <div class="p-card">
+              <div style="font-size:10px;font-weight:700;color:#1F4E78;margin-bottom:8px;">📅 21/03/2026</div>
+              <div class="p-label">Zona</div><div class="p-val" style="margin-bottom:6px;">🌊 Laguna Nord</div>
+              <div class="p-label">Meteo</div>
+              <div class="p-badges" style="margin-bottom:6px;"><span class="p-badge">☀️ Sole</span><span class="p-badge">🌬 Vento leggero</span></div>
+              <div class="p-label">Marea · Luna</div>
+              <div class="p-badges"><span class="p-badge or">📈 Alta +65cm</span><span class="p-badge">🌕 Luna piena</span></div>
+            </div>
+            <div class="p-catch">
+              <div style="font-size:22px;">🐟</div>
+              <div><div class="p-catch-name">Spigola — 2.4 kg</div><div class="p-catch-detail">Ottagono · Minnow 12cm</div></div>
+              <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:8px;padding:2px 6px;border-radius:8px;">✓</span>
+            </div>
+          </div>
+          <div class="p-pb" id="ppb-ps1"></div>
+        </div>
+        <!-- PSLIDE 2: MAPPA -->
+        <div class="pslide" id="ps2">
+          <div class="panel-label-overlay"><span class="panel-label-text">🗺 Mappa</span></div>
+          <div class="p-header"><div class="p-header-title">FISHING DIARY</div><div class="p-header-sub">Laguna di Venezia</div></div>
+          <div class="p-tabs">
+            <div class="p-tab">📖</div><div class="p-tab">✏️</div>
+            <div class="p-tab">📋</div><div class="p-tab on">🗺 Mappa</div><div class="p-tab">📊</div>
+          </div>
+          <div class="p-map">
+            <div class="p-land" style="width:100px;height:70px;top:15px;left:8px;border-radius:40% 60% 55% 45%;transform:rotate(-10deg);"></div>
+            <div class="p-land" style="width:70px;height:50px;top:55px;right:15px;border-radius:55% 45% 40% 60%;transform:rotate(8deg);"></div>
+            <div class="p-land" style="width:55px;height:35px;bottom:80px;left:40px;border-radius:50%;"></div>
+            <div class="p-marker" style="top:33%;left:44%;">
+              <svg viewBox="0 0 28 38"><path d="M14 1C7.4 1 2 6.4 2 13c0 9 12 24 12 24S26 22 26 13C26 6.4 20.6 1 14 1z" fill="#1F4E78" stroke="#fff" stroke-width="2"/><circle cx="14" cy="13" r="5" fill="#fff" opacity="0.9"/></svg>
+              <div class="p-mlabel">Ottagono</div>
+            </div>
+            <div class="p-marker" style="top:52%;left:28%;">
+              <svg viewBox="0 0 28 38"><path d="M14 1C7.4 1 2 6.4 2 13c0 9 12 24 12 24S26 22 26 13C26 6.4 20.6 1 14 1z" fill="#e07b39" stroke="#fff" stroke-width="2"/><circle cx="14" cy="13" r="5" fill="#fff" opacity="0.9"/></svg>
+              <div class="p-mlabel">Sant'Erasmo</div>
+            </div>
+            <div class="p-pulse" style="top:33%;left:44%;"></div>
+          </div>
+          <div class="p-spotlist">
+            <div style="font-size:7px;font-weight:700;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">I tuoi spot</div>
+            <div class="p-spotitem"><div class="p-dot" style="background:#1F4E78;"></div>Ottagono<span style="margin-left:auto;font-size:7px;color:#bbb;">45.441, 12.315</span></div>
+            <div class="p-spotitem"><div class="p-dot" style="background:#e07b39;"></div>Sant'Erasmo GPS<span style="margin-left:auto;font-size:7px;color:#bbb;">45.456, 12.390</span></div>
+          </div>
+          <div class="p-pb" id="ppb-ps2"></div>
+        </div>
+        <!-- PSLIDE 3: STATS -->
+        <div class="pslide" id="ps3">
+          <div class="panel-label-overlay"><span class="panel-label-text">📊 Statistiche</span></div>
+          <div class="p-header"><div class="p-header-title">FISHING DIARY</div><div class="p-header-sub">Laguna di Venezia</div></div>
+          <div class="p-tabs">
+            <div class="p-tab">📖</div><div class="p-tab">✏️</div>
+            <div class="p-tab">📋</div><div class="p-tab">🗺</div><div class="p-tab on">📊 Stats</div>
+          </div>
+          <div class="p-content" style="overflow-y:auto;">
+            <div class="p-sgrid">
+              <div class="p-scard"><div class="p-snum">12</div><div class="p-slbl">Uscite</div></div>
+              <div class="p-scard"><div class="p-snum">28</div><div class="p-slbl">Catture</div></div>
+              <div class="p-scard"><div class="p-snum">34kg</div><div class="p-slbl">Peso</div></div>
+            </div>
+            <div class="p-card">
+              <div style="font-size:9px;font-weight:700;color:#1F4E78;margin-bottom:6px;">Catture per mese</div>
+              <div class="p-bars">
+                <div class="p-bar" style="height:30%;"></div>
+                <div class="p-bar" style="height:50%;"></div>
+                <div class="p-bar" style="height:75%;"></div>
+                <div class="p-bar" style="height:45%;"></div>
+                <div class="p-bar" style="height:95%;"></div>
+                <div class="p-bar" style="height:60%;"></div>
+              </div>
+            </div>
+            <div class="p-card" style="margin-top:0;">
+              <div style="font-size:9px;font-weight:700;color:#1F4E78;margin-bottom:4px;">Top zone</div>
+              <div style="font-size:9px;color:#555;line-height:1.9;">🥇 <b>Ottagono</b> — 2.3 cat/usc<br>🥈 <b>Sant'Erasmo</b> — 1.8 cat/usc<br>🥉 <b>Burano</b> — 1.2 cat/usc</div>
+            </div>
+          </div>
+          <div class="p-pb" id="ppb-ps3"></div>
+        </div>
+
+        <!-- PSLIDE 3s: STORICO -->
+        <div class="pslide" id="ps3s">
+          <div class="panel-label-overlay"><span class="panel-label-text">📖 Storico</span></div>
+          <div class="p-header"><div class="p-header-title">FISHING DIARY</div><div class="p-header-sub">Laguna di Venezia</div></div>
+          <div class="p-tabs">
+            <div class="p-tab on">📖 Storico</div><div class="p-tab">✏️</div>
+            <div class="p-tab">📋</div><div class="p-tab">🗺</div><div class="p-tab">📊</div>
+          </div>
+          <div class="p-content" style="overflow-y:auto;">
+            <!-- Uscita 1 -->
+            <div class="p-card" style="margin-bottom:0;border-radius:0;border-bottom:1px solid #e8f0f8;padding:9px 11px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <span style="font-size:9px;font-weight:700;color:#1F4E78;">21/03/2026 — Laguna Nord</span>
+                <span style="font-size:8px;background:#e8f0f8;color:#1F4E78;padding:1px 6px;border-radius:8px;">2 catture</span>
+              </div>
+              <div style="font-size:8px;color:#555;">☀️ Sole · 📈 +65cm · 🌕 Luna piena</div>
+              <div style="font-size:8px;color:#1F4E78;margin-top:2px;">🐟 Spigola 2.4kg · 🐟 Spigola 1.1kg</div>
+            </div>
+            <!-- Uscita 2 -->
+            <div class="p-card" style="margin-bottom:0;border-radius:0;border-bottom:1px solid #e8f0f8;padding:9px 11px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <span style="font-size:9px;font-weight:700;color:#1F4E78;">15/03/2026 — Ottagono</span>
+                <span style="font-size:8px;background:#fff3e8;color:#e07b39;padding:1px 6px;border-radius:8px;">0 catture</span>
+              </div>
+              <div style="font-size:8px;color:#555;">🌧 Pioggia · 📉 -12cm · 🌑 Novilunio</div>
+              <div style="font-size:8px;color:#aaa;margin-top:2px;font-style:italic;">Nessuna cattura</div>
+            </div>
+            <!-- Uscita 3 -->
+            <div class="p-card" style="margin-bottom:0;border-radius:0;border-bottom:1px solid #e8f0f8;padding:9px 11px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <span style="font-size:9px;font-weight:700;color:#1F4E78;">08/03/2026 — Sant'Erasmo</span>
+                <span style="font-size:8px;background:#e8f0f8;color:#1F4E78;padding:1px 6px;border-radius:8px;">1 cattura</span>
+              </div>
+              <div style="font-size:8px;color:#555;">🌬 Vento · 📈 +42cm · 🌓 Quarto</div>
+              <div style="font-size:8px;color:#1F4E78;margin-top:2px;">🐟 Spigola 0.9kg</div>
+            </div>
+            <!-- Uscita 4 -->
+            <div class="p-card" style="margin-bottom:0;border-radius:0;padding:9px 11px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <span style="font-size:9px;font-weight:700;color:#1F4E78;">01/03/2026 — Burano</span>
+                <span style="font-size:8px;background:#e8f0f8;color:#1F4E78;padding:1px 6px;border-radius:8px;">3 catture</span>
+              </div>
+              <div style="font-size:8px;color:#555;">☀️ Sole · 📈 +78cm · 🌕 Luna piena</div>
+              <div style="font-size:8px;color:#1F4E78;margin-top:2px;">🐟 1.8kg · 🐟 1.2kg · 🐟 0.7kg</div>
+            </div>
+          </div>
+          <div class="p-pb" id="ppb-ps3s"></div>
+        </div>
+
+        <!-- PSLIDE 4: FINALE -->
+        <div class="pslide p-finale" id="ps4">
+          <div class="p-finale-title">PROVALO<br>ORA</div>
+          <div style="width:100%;">
+            <div class="p-fitem" id="pf1"><span style="font-size:14px;">🗺</span><span style="font-size:10px;color:rgba(255,255,255,0.8);">Mappa spot GPS</span></div>
+            <div class="p-fitem" id="pf2"><span style="font-size:14px;">📊</span><span style="font-size:10px;color:rgba(255,255,255,0.8);">Statistiche automatiche</span></div>
+            <div class="p-fitem" id="pf3"><span style="font-size:14px;">🌊</span><span style="font-size:10px;color:rgba(255,255,255,0.8);">Meteo e marea</span></div>
+            <div class="p-fitem" id="pf4"><span style="font-size:14px;">📱</span><span style="font-size:10px;color:rgba(255,255,255,0.8);">Su qualsiasi dispositivo</span></div>
+          </div>
+          <div class="p-fcta">🎣 Apri Fishing Diary</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.35);">Nessuna registrazione</div>
+          <div class="p-pb" id="ppb-ps4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DOTS NAVIGAZIONE -->
+<div id="section-dots">
+  <div class="sdot on"></div>
+  <div class="sdot"></div>
+  <div class="sdot"></div>
+  <div class="sdot"></div>
+  <div class="sdot"></div>
+</div>
+
+<!-- BARRA PROGRESSO -->
+<div id="progress-bar"></div>
+
+<script>
+// Genera stelle
+function makeStars(containerId, n) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*60}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;
+    c.appendChild(s);
+  }
+}
+['stars0','stars-testo','stars1','stars2','stars3'].forEach(id => makeStars(id, 40));
+
+// Configurazione sezioni
+const sections = [
+  { id: 's0', dur: 6000 },
+  { id: 's-testo', dur: 0 },
+  { id: 's1', dur: 5000 },
+  { id: 's2', dur: 7000 },
+  { id: 's3', dur: 22000 },
+];
+
+// Configurazione slide telefono
+const pslides = [
+  { id: 'ps0', dur: 3000 },
+  { id: 'ps1', dur: 4000 },
+  { id: 'ps2', dur: 4000 },
+  { id: 'ps3', dur: 4000 },
+  { id: 'ps3s', dur: 4000 },
+  { id: 'ps4', dur: 3000 },
+];
+
+let curSection = 0;
+let curPslide = 0;
+let sTimer = null;
+let pTimer = null;
+
+function showSection(idx) {
+  // Reset elementi animati della sezione corrente
+  resetSection(curSection);
+
+  // Nascondi tutte con exit transition
+  sections.forEach((s, i) => {
+    const el = document.getElementById(s.id);
+    if (el.classList.contains('active')) {
+      el.classList.remove('active');
+      el.classList.add('exit');
+      setTimeout(() => el.classList.remove('exit'), 900);
+    } else {
+      el.classList.remove('active');
+    }
+  });
+  document.querySelectorAll('.sdot').forEach((d, i) => d.classList.toggle('on', i === idx));
+
+  const s = sections[idx];
+  const el = document.getElementById(s.id);
+  el.classList.add('active');
+  curSection = idx;
+
+  // Progress bar globale
+  const pb = document.getElementById('progress-bar');
+  const totalDur = sections.reduce((a, s) => a + s.dur, 0);
+  const elapsed = sections.slice(0, idx).reduce((a, s) => a + s.dur, 0);
+  pb.style.transition = 'none';
+  pb.style.width = (elapsed / totalDur * 100) + '%';
+  setTimeout(() => {
+    pb.style.transition = `width ${s.dur}ms linear`;
+    pb.style.width = ((elapsed + s.dur) / totalDur * 100) + '%';
+  }, 50);
+
+  // Animazioni entrata per sezione
+  setTimeout(() => triggerSection(idx), 200);
+
+  // Avvia slide telefono se sezione 3
+  if (idx === 4) {
+    curPslide = 0;
+    showPslide(0);
+  }
+
+  if (s.dur > 0) {
+    sTimer = setTimeout(() => {
+      showSection((idx + 1) % sections.length);
+    }, s.dur);
+  }
+}
+
+function triggerSection(idx) {
+  if (idx === 0) {
+    document.getElementById('s0-title').classList.add('show');
+    document.getElementById('s0-div').classList.add('show');
+    document.getElementById('s0-sub').classList.add('show');
+    document.getElementById('s0-tag').classList.add('show');
+  }
+  if (sections[idx].id === 's-testo') {
+    setTimeout(startTextScroll, 100);
+  }
+  if (idx === 2) {
+    document.getElementById('s1-img').classList.add('show');
+    setTimeout(() => document.getElementById('s1-cap').classList.add('show'), 600);
+  }
+  if (idx === 3) {
+    document.getElementById('s2-title').classList.add('show');
+    setTimeout(() => document.getElementById('s2-hud').classList.add('show'), 300);
+  }
+  if (idx === 4) {
+    document.getElementById('s3-label').classList.add('show');
+    setTimeout(() => document.getElementById('s3-phone').classList.add('show'), 400);
+  }
+
+}
+
+function resetSection(idx) {
+  if (idx === 0) {
+    ['s0-title','s0-div','s0-sub','s0-tag'].forEach(id => document.getElementById(id).classList.remove('show'));
+  }
+  if (idx === 2) {
+    document.getElementById('s1-img').classList.remove('show');
+    document.getElementById('s1-cap').classList.remove('show');
+  }
+  if (idx === 3) {
+    document.getElementById('s2-title').classList.remove('show');
+    document.getElementById('s2-hud').classList.remove('show');
+  }
+  if (idx === 4) {
+    document.getElementById('s3-label').classList.remove('show');
+    document.getElementById('s3-phone').classList.remove('show');
+  }
+}
+
+function showPslide(idx) {
+  clearTimeout(pTimer);
+  pslides.forEach((p, i) => {
+    document.getElementById(p.id).classList.toggle('active', i === idx);
+  });
+
+  const ppbId = 'ppb-' + pslides[idx].id;
+  const ppb = document.getElementById(ppbId);
+  if (ppb) {
+    ppb.style.transition = 'none';
+    ppb.style.width = '0%';
+    setTimeout(() => {
+      ppb.style.transition = `width ${pslides[idx].dur}ms linear`;
+      ppb.style.width = '100%';
+    }, 50);
+  }
+
+  if (pslides[idx].id === 'ps4') {
+    setTimeout(() => document.getElementById('pf1').classList.add('show'), 300);
+    setTimeout(() => document.getElementById('pf2').classList.add('show'), 600);
+    setTimeout(() => document.getElementById('pf3').classList.add('show'), 900);
+    setTimeout(() => document.getElementById('pf4').classList.add('show'), 1200);
+  } else {
+    ['pf1','pf2','pf3','pf4'].forEach(id => document.getElementById(id).classList.remove('show'));
+  }
+
+  curPslide = idx;
+  pTimer = setTimeout(() => {
+    showPslide((idx + 1) % pslides.length);
+  }, pslides[idx].dur);
+}
+
+// Click per avanzare
+document.getElementById('stage').addEventListener('click', () => {
+  clearTimeout(sTimer);
+  clearTimeout(pTimer);
+  resetSection(curSection);
+  showSection((curSection + 1) % sections.length);
+});
+
+
+function startTextScroll() {
+  const wrap = document.getElementById('testo-wrap');
+  const inner = document.getElementById('testo-inner');
+  if (!wrap || !inner) return;
+
+  const duration = 20; // seconds
+
+  // Reset to start below viewport
+  inner.style.transition = 'none';
+  inner.style.transform = 'translateY(' + wrap.offsetHeight + 'px)';
+  inner.offsetHeight; // force reflow
+
+  // Scroll solo fino a quando l'ultima riga esce dal bordo inferiore del wrap
+  // (non continua a scrollare il vuoto dopo l'ultimo testo)
+  const scrollDistance = inner.offsetHeight + wrap.offsetHeight;
+  inner.style.transition = 'transform ' + duration + 's linear';
+  inner.style.transform = 'translateY(-' + inner.offsetHeight + 'px)';
+
+  // Calcola quando l'ultima riga è appena visibile e transiziona subito dopo
+  const lastLineRatio = (inner.offsetHeight / scrollDistance);
+  const transitionAt = Math.round(duration * lastLineRatio * 1000);
+
+  sTimer = setTimeout(() => {
+    if (sections[curSection].id === 's-testo') {
+      resetSection(curSection);
+      showSection((curSection + 1) % sections.length);
+    }
+  }, transitionAt + 400);
+}
+
+// Avvio
+showSection(0);
+</script>
+</body>
+</html>
